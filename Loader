@@ -1,0 +1,25 @@
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local rootPart = character:WaitForChild("HumanoidRootPart")
+
+local lagDuration = 0.5
+local lagInterval = 1.5
+local slowSpeed = 2
+local normalSpeed = humanoid.WalkSpeed
+
+local function simulateLag()
+    humanoid.WalkSpeed = slowSpeed
+    local originalCFrame = rootPart.CFrame
+    rootPart.Anchored = true
+    task.wait(lagDuration / 2)
+    rootPart.Anchored = false
+    task.wait(lagDuration / 2)
+    humanoid.WalkSpeed = normalSpeed
+    rootPart.CFrame = originalCFrame
+end
+
+while true do
+    simulateLag()
+    task.wait(lagInterval)
+end
